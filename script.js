@@ -19,7 +19,7 @@ const checkIfDataAvailable = () => localStorage.length > 0 && localStorage.produ
 function calcTotal() {
     if (price.value != '') {
         // parseInt, parseFloat
-        let result = (+price.value + +taxes.value + +ads.value) - +discount.value;
+        let result = +price.value + +taxes.value + +ads.value - +discount.value;
         if (result > 0) {
             // innerHtml
             total.innerText = result;
