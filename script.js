@@ -8,6 +8,11 @@ let count = document.querySelector('#count');
 let category = document.querySelector('#category');
 let submit = document.querySelector('#submit');
 const redColor = 'rgb(188, 21, 9)';
+let supprimer = document.querySelector('#supprimer');
+let objectUpdated ;
+//localStorage.clear();
+const x = 10;
+
 
 price.addEventListener('keyup', calcTotal);
 taxes.addEventListener('keyup', calcTotal);
@@ -57,6 +62,7 @@ function createProduct() {
     localStorage.setItem('product', JSON.stringify(myproduct))
     ReadData();
     clearInputs();
+    affichageDelete();
 }
 
 function clearInputs() {
@@ -74,6 +80,7 @@ function clearInputs() {
 function ReadData() {
     if (checkIfDataAvailable()) {
         let myData = JSON.parse(localStorage.product);
+        document.querySelector('#tabbody').innerText = '';
         for (let i = 0; i < myData.length; i++) {
 
             const tableRow = document.createElement('tr');
@@ -90,9 +97,12 @@ function ReadData() {
             buttonUpdate.innerText = 'UPDATE';
             buttonUpdate.classList.add('btn');
             buttonUpdate.id = 'update';
+            buttonUpdate.addEventListener('click',update())
+            
             tableData = document.createElement('td')
             tableData.appendChild(buttonUpdate);
             tableRow.appendChild(tableData);
+
 
             const buttonDelete = document.createElement('button');
             buttonDelete.innerText = 'DELETE';
@@ -102,8 +112,7 @@ function ReadData() {
             tableData.appendChild(buttonDelete);
             tableRow.appendChild(tableData);
 
-            document.querySelector('#tab').appendChild(tableRow);
-
+            document.querySelector('#tabbody').appendChild(tableRow);
         }
     }
 }
@@ -114,11 +123,31 @@ function createAndAppendData(data, tableRow) {
     let tableData = document.createElement('td');
     tableData.innerText = data;
     tableRow.appendChild(tableData);
-    return tableData;
+    // return tableData;
+}
+affichageDelete();
+function affichageDelete() {
+    if (checkIfDataAvailable()){
+        supprimer.innerText = '';
+        let numb = JSON.parse(localStorage.product).length;
+        const buttonSupprimer = document.createElement('button');
+        buttonSupprimer.innerText = `${'Delete All('}${numb}${')'}`;
+        buttonSupprimer.className = 'btn';
+        document.querySelector('#supprimer').appendChild(buttonSupprimer);
+    }
 }
 
-function deleteAll() {
+function deleteAll(){
+    localStorage.clear();
+    document.querySelector('#tabbody').innerText = '';
+    supprimer.innerText = '';
 }
+
+function update(){
+    console.log(10)
+
+}
+
 
 window.addEventListener('beforeunload', function () {
     price.removeEventListener('keyup', calcTotal);
